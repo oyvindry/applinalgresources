@@ -33,54 +33,33 @@
 % % keywords = ipynb; m; fouriervectors
 % 
 % Let us test the function |forw_comp_rev_DFT| to listen to the lower frequencies in the audio sample file.
-% For $L=13000$, the result sounds like this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetslowerfreq7.wav>.
-% For $L=5000$, the result sounds like this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetslowerfreq3.wav>. 
+% We start with $L=13000$.
+% 
+[x, fs] = forw_comp_rev_DFT(13000, 1);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
+% Then with $L=5000$.
+% 
+[x, fs] = forw_comp_rev_DFT(5000, 1);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
 % With $L=13000$ you can hear the disturbance in the sound, but we have not lost that much even if about 90\% of the DFT coefficients are dropped. 
 % The quality is much poorer when $L=5000$ (here we keep less than 5\% of the DFT coefficients). 
 % However we can still recognize the song, and this suggests that most of the frequency information is contained in the lower frequencies.
 % 
 % Let us then listen to higher frequencies instead. 
-% For $L=140000$, the result sounds like this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetshigherfreq7.wav>. 
-% For $L=100000$ the result sounds like this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetshigherfreq3.wav>. Both sounds are quite unrecognizable.
+% We start with $L=140000$.
+% 
+[x, fs] = forw_comp_rev_DFT(140000, 0);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
+% Then with $L=100000$. 
+% 
+[x, fs] = forw_comp_rev_DFT(100000, 0);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
 % 
 % We find that we need very high values of $L$ to hear anything, suggesting again that most information is contained in the lowest frequencies.
-% 
-% 
-% 
-% Note that there may be a problem in the previous example: when we restrict to the values in a given block, we actually look at a different signal. The new signal
-% repeats the values in the block in periods, while the old signal consists of one much bigger block. What are the differences in the frequency representations of
-% the two signals?
-% 
-% Assume that the entire sound has length $M$. The frequency representation of this is computed as an $M$-point DFT (the signal is actually repeated with period
-% $M$), and we write the sound samples as a sum of frequencies: $x_k=\frac{1}{M}\sum_{n=0}^{M-1} y_n e^{2\pi ikn/M}$. Let us consider the effect of restricting to a block for
-% each of the contributing pure tones $e^{2\pi ikn_0/M}$, $0\leq n_0\leq M-1$. When we restrict
-% this to a block of size $N$, we get the signal $\left\{e^{2\pi ikn_0/M}\right\}_{k=0}^{N-1}$. Depending on $n_0$, this may not be a Fourier basis vector! Its $N$-point DFT
-% gives us its frequency representation, and the absolute value of this is
-% 
-% $$|y_n| &= \left|\sum_{k=0}^{N-1} e^{2\pi ikn_0/M} e^{-2\pi ikn/N}\right|        = \left|\sum_{k=0}^{N-1} e^{2\pi ik(n_0/M-n/N)}\right| \nonumber \\        &= \left|\frac{1-e^{2\pi iN(n_0/M-n/N)}}{1-e^{2\pi i(n_0/M-n/N)}}\right|        = \left|\frac{\sin(\pi N(n_0/M-n/N))}{\sin(\pi(n_0/M-n/N))}\right|.$$
-% If $n_0=kM/N$, this gives $y_{k}=N$, and $y_{n}=0$ when $n\neq k$. Thus, splitting the signal into blocks gives another pure tone when $n_0$ is a multiplum of $M/N$. When $n_0$ is different from
-% this the situation is different. Let us set $M=1000$, $n_0=1$, and experiment with different values of $N$. Figure 2.5 shows the $y_n$ values for different
-% values of $N$. We see that the frequency representation is now very different, and that many frequencies contribute. 
-% 
-% <<fouriervectors/fig/fordifferentN.png>>
-% 
-% The explanation is that the pure tone is not a pure tone when $N=64$ and $N=256$, since at this scale such frequencies are too high to be represented exactly. The
-% closest pure tone in frequency is $n=0$, and we see that this has the biggest contribution, but other frequencies also contribute. The other frequencies contribute
-% much more when $N=256$, as can be seen from the peak in the closest frequency $n=0$. In conclusion, when we split into blocks, the frequency representation may change in an
-% undesirable way. This is a common problem in signal processing theory, that one in practice needs to restrict to smaller segments of
-% samples, but that this restriction may have undesired effects. 
-% 
-% Another problem when we restrict to a shorter periodic signal is that we may obtain discontinuities at the boundaries between the new periods, even if there were
-% no discontinuities in the original signal. And, as we know from the square wave, discontinuities introduce undesired frequencies. We have already mentioned that
-% symmetric extensions may be used to remedy this.
-% 
-% 
-% The MP3 standard also applies a DFT to the sound data. In its simplest form it applies a 512 point DFT. There are some differences
-% to how this is done when compared to Example 2.16, however. In our example we split the sound into disjoint blocks, and applied a DFT to each of them.
-% The MP3 standard actually splits the sound into blocks which overlap, as this creates a more continuous frequency representation. Another difference is that the
-% MP3 standard applies a _window_ to the sound samples, and the effect of this is that the new signal has a frequency representation which is closer to the
-% original one, when compared to the signal obtained by using the block values unchanged as above. 
-% We will go into details on this in the next chapter.
 % 
 % % --- end exercise ---
 % 
@@ -98,23 +77,16 @@
 % components, which is thus more suitable for compression. To test this in practice, we first need to set a threshold, which decides which frequencies to keep. 
 % This can then be sent to the function |forw_comp_rev_DFT| by means of the named parameter |threshold|. 
 % The function will now also write to the display the percentage of the DFT coefficients which were zeroed out.
-% If you run this function with |threshold| equal to $20$, the result sounds like
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetsthreshold002.wav>, 
-% and the function says that about $68\%$ of the DFT coefficients were set to zero. 
-% You can clearly hear the disturbance in the sound, but we have not lost that much. 
-% If we instead try |threshold| equal to $70$, the result will sound like this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetsthreshold01.wav>,
-% and the function says that about $94\%$ of the DFT coefficients were set to zero. The quality is much poorer now, even if we still can recognize the song. This
-% suggests that most of the frequency information is contained in frequencies with the highest values. 
+% Let us first listen to the result when |threshold=20|.
 % 
-% <<fouriervectors/fig/dftsound.png>>
+[x, fs] = forw_comp_rev_DFT(threshold=20);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
+% Then for |threshold=70|.
 % 
-% In Figure 2.6 we have illustrated this principle for compression for 512 sound samples from a song. 
-% The samples of the sound and (the absolute value of) its DFT are shown at the top. At the bottom all values of the DFT with absolute value smaller than 0.02 are 
-% set to zero (52) values then remain), and the sound is reconstructed with the IDFT, and then shown in. The start and end signals look similar, even though
-% the last signal can be represented with less than 10 \% of the values from the first.
-% 
-% Note that using a neglection threshold in this way is too
-% simple in practice: The neglection threshold in general should depend on the frequency, since the human auditory system is more sensitive to certain frequencies.
+[x, fs] = forw_comp_rev_DFT(threshold=70);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
 % 
 % % --- end exercise ---
 % 
@@ -136,12 +108,21 @@
 % $$...d_2d_1d_0.d_{-1}d_{-2}d_{-3}...$$
 % is truncated so that the bits $d_{n-1}$, $d_{n-2}$, $d_{n-2}$ are discarded.
 % In other words, high values of $n$ mean more rounding. 
-% If you run |forw_comp_rev_DFT| with |n| equal to $3$, the result sounds like
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castantesquantizedn3.wav>, 
-% with $n=5$ the result sounds like 
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castantesquantizedn5.wav>,
-% and with $n=7$ the result sounds like  
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castantesquantizedn7.wav>. 
+% Let us first listen to the result for |n=3|.
+% 
+[x, fs] = forw_comp_rev_DFT(n=3);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
+% Then for |n=5|.
+% 
+[x, fs] = forw_comp_rev_DFT(n=5);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
+% Then for |n=7|.
+% 
+[x, fs] = forw_comp_rev_DFT(n=7);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
 % You can hear that the sound degrades further when $n$ is increased.
 % 
 % In practice this quantization procedure is also too simple, since the

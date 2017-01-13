@@ -4,7 +4,7 @@
 % 
 % Date: Jan 13, 2017
 % 
-% % Mapping from exercise labels to numbers: label2numbers = {'symfuncex': '1.35', 'ex:playwithdifferentfs': '1.9', 'exsq1': '1.12', 'triwavetrunk': '1.16', 'puresoundex': '1.3', 'ex:fourierseriespolynomials': '1.22', 'ex:fourierpuretoneshortened': '1.24', 'example:listen_different_channels': '1.1', 'ex:fourierpuretone2stk': '1.25', 'squarewaveex': '1.4', 'soundbackwards': '1.2'}
+% % Mapping from exercise labels to numbers: label2numbers = {'symfuncex': '1.35', 'ex:playwithdifferentfs': '1.9', 'exsq1': '1.12', 'triwavetrunk': '1.16', 'puresoundex': '1.3', 'ex:fourierseriespolynomials': '1.22', 'ex:playwithnoise': '1.10', 'ex:fourierpuretoneshortened': '1.24', 'example:listen_different_channels': '1.1', 'triangleexercise': '1.11', 'ex:fourierpuretone2stk': '1.25', 'squarewaveex': '1.4', 'soundbackwards': '1.2'}
 % 
 % 
 % % Externaldocuments: applinalg, applinalg
@@ -17,6 +17,8 @@
 %      Example 1.3: Playing pure tones. 
 %      Example 1.4: The square wave 
 %      Exercise 1.9: Playing with different sample rates 
+%      Exercise 1.10: Play sound with added noise 
+%      Exercise 1.11: Playing the triangle wave 
 %      Example 1.12: Fourier coefficients of the square wave 
 %      Exercise 1.16: Playing the Fourier series of the triangle wave 
 %      Exercise 1.22: Fourier series for polynomials 
@@ -37,6 +39,8 @@
 % % keywords = ipynb; m; fourierseries
 % 
 % 
+% 
+[x, fs] = audioread('sounds/castanets.wav');
 % 
 % Our audio sample file actually has two sound channels. 
 % In such cases |x| is actually a matrix with two columns, and each column represents a sound channel. 
@@ -74,13 +78,10 @@ playblocking(playerobj);
 % When we reverse the sound samples, we have to reverse the elements in both sound channels. 
 % For our audio sample file this can be performed as follows.
 % 
-[x, fs] = audioread('sounds/castanets.wav');
 N = size(x, 1);
 z = x(N:(-1):1, :);
 playerobj = audioplayer(z, fs);
 playblocking(playerobj);
-% Performing this on our sample file you generate a sound which sounds like
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetsreverse.wav>.
 % 
 % % --- end exercise ---
 % 
@@ -94,6 +95,9 @@ playblocking(playerobj);
 % % keywords = ipynb; m; fourierseries
 % 
 % To create the samples of a pure tone we can write
+% 
+f = 440;
+antsec = 3;
 % 
 t = linspace(0, antsec, fs*antsec);
 x = sin(2*pi*f*t);
@@ -177,6 +181,8 @@ playblocking(playerobj);
 % % --- begin solution of exercise ---
 % *Solution.* The following code can be used
 % 
+[x, fs] = audioread('sounds/castanets.wav');
+% 
 playerobj = audioplayer(x, fs);
 playblocking(playerobj);
 % 
@@ -185,11 +191,80 @@ playblocking(playerobj);
 % 
 playerobj = audioplayer(x, fs/2);
 playblocking(playerobj);
-% The sample file |castanets.wav| played at double sampling rate sounds like
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetsdouble.wav>, 
-% while it sounds like 
-% this <http://folk.uio.no/oyvindry/matinf2360/sounds/castanetshalf.wav> 
-% when it is played with half the sampling rate.
+% 
+% % --- end solution of exercise ---
+% 
+% % --- end exercise ---
+% 
+% 
+% 
+% 
+% % --- begin exercise ---
+% 
+%% Exercise 1.10: Play sound with added noise
+% 
+% % keywords = ipynb; m; fourierseries
+% 
+% To remove noise from recorded sound can be very challenging, but adding noise is simple. 
+% There are many kinds of noise, but one kind is easily obtained by adding random numbers to the samples of a sound.
+% For this we can use the function
+% |rand| as follows.
+%  z = x + c*(2*rand(size(x))-1);
+% This adds noise to all channels. 
+% The function for returning random numbers returns numbers between $0$ and $1$, 
+% and above we have adjusted these so that they are between $-1$ and $1$ instead, as for other sound which can be played by the computer.  
+% $c$ is a constant (usually smaller than 1) that dampens the noise. 
+% 
+% Write code which adds noise to the audio sample file, and listen to the result for damping constants |c=0.4| and |c=0.1|. 
+% Remember to scale the sound values after you have added noise, since they may be outside $[-1,1]$ then.
+% 
+% 
+% % --- begin solution of exercise ---
+% *Solution.* The following code can be used. 
+% 
+c = 0.1;
+% 
+z = x + c*(2*rand(size(x))-1);
+z = z/max(abs(z));
+playerobj = audioplayer(z, fs);
+playblocking(playerobj);
+% 
+% % --- end solution of exercise ---
+% 
+% % --- end exercise ---
+% 
+% 
+% 
+% 
+% % --- begin exercise ---
+% 
+%% Exercise 1.11: Playing the triangle wave
+% 
+% % keywords = ipynb; m; fourierseries
+% 
+% Repeat what you did in Example 1.4, 
+% but now for the triangle wave of Example 1.5. 
+% Start by generating the samples for one period of the triangle wave, 
+% then plot five periods, before you generate the sound over a period of three seconds, and play it.
+% Verify that you generate the same sound as in Example 1.5.
+% 
+% 
+% % --- begin solution of exercise ---
+% *Solution.* The triangle wave can be plotted as follows: 
+% 
+totransl=1-4*abs(t-T/2)/T;
+figure()
+plot([t t+T t+2*T t+3*T t+4*T],repmat(totransl,1,5), 'k-')
+% The samples for one period are created as follows.
+% 
+oneperiod=[linspace(-1,1,round(samplesperperiod/2)) ...
+linspace(1,-1,round(samplesperperiod/2))];
+x = zeros(1, antsec*f*length(oneperiod));
+% Then we repeat one period to obtain a sound with the desired length, and play it as follows. 
+% 
+x=repmat(oneperiod,1,antsec*f);
+playerobj=audioplayer(x, fs);
+playblocking(playerobj);
 % 
 % % --- end solution of exercise ---
 % 
@@ -348,9 +423,19 @@ end
 % 
 % $$\begin{align*} y_n &= \frac{1}{T}\int_0^T e^{2\pi it/T_2}e^{-2\pi int/T}dt = \frac{1}{2\pi iT(1/T_2-n/T)} \left[ e^{2\pi it(1/T_2-n/T)}\right]_0^T \\  &= \frac{1}{2\pi i(T/T_2-n)}\left( e^{2\pi iT/T_2} - 1 \right). \end{align*}$$
 % Here it is only the term $1/(T/T_2-n)$ which depends on $n$, so that $y_n$ can only be large when $n$ is close $T/T_2$. 
-% In Figure 1.8 we have plotted $|y_n|$ for two different combinations of $T,T_2$.
+% let us plot $|y_n|$ for two different combinations of $T,T_2$. First for $T/T_2=0.5$, 
 % 
-% <<fourierseries/fig/fourierpuretoneshortened.png>>
+n=1:20;
+T=0.5;
+T2=1;
+figure()
+plot( n, abs(( exp(2*pi*i*T/T2) - 1 )./(2*pi*i*(T/T2-n))) ,'k-')
+% then for $T/T_2=0.9$.
+% 
+T=0.9;
+T2=1;
+figure()
+plot( n, abs(( exp(2*pi*i*T/T2) - 1 )./(2*pi*i*(T/T2-n))) ,'k-')
 % 
 % In both examples it is seen that many Fourier coefficients contribute, but this is more visible when $T/T_2=0.5$. When $T/T_2=0.9$, most contribution is seen to be
 % in the $y_1$-coefficient. This sounds reasonable, since $f$ then is closest to the pure tone $f(t)=e^{2\pi it/T}$ of frequency $1/T$ (which in turn has $y_1=1$
@@ -381,9 +466,29 @@ end
 % 
 % $$\begin{equation*} y_n = \begin{cases}           \frac{1}{2}+\frac{1}{\pi i(n_2-n_1)} & n=n_1,n_2\\           0                                    & n\text{ even }, n\neq n_1,n_2\\           \frac{n_1-n_2}{\pi i(n_1-n)(n_2-n)}  & n\text{ odd }       \end{cases} \end{equation*}$$
 % Here we have computed the cases $n=n_1$ and $n=n_2$ as above. 
-% In Figure 1.9 we have plotted $|y_n|$ for two different combinations of $n_1,n_2$. 
+% Let us plot $|y_n|$ in two cases: First for $n_1=10$, $n_2=12$,
 % 
-% <<fourierseries/fig/fourierpuretone2stk.png>>
+lt=39;
+n1=10 ;
+n2=12;
+yn=zeros(lt,1);
+yn(n1)=abs(1/2+1/(pi*i*(n2-n1)));
+yn(n2)=yn(n1);
+nvals=1:2:lt;
+yn(nvals)=abs((n1-n2)./(pi*i*(n1-nvals).*(n2-nvals)));
+figure()
+plot(1:lt,yn,'k-')
+% then for $n_1=2$, $n_2=20$.
+% 
+n1=2;
+n2=20;
+yn=zeros(lt,1);
+yn(n1)=abs(1/2+1/(pi*i*(n2-n1)));
+yn(n2)=yn(n1);
+nvals=1:2:lt;
+yn(nvals)=abs((n1-n2)./(pi*i*(n1-nvals).*(n2-nvals)));
+figure()
+plot(1:lt,yn,'k-')
 % 
 % We see that, when $n_1,n_2$ are close, the Fourier coefficients are close to those of a pure tone with $n\approx n_1,n_2$, but that also other
 % frequencies contribute. When $n_1,n_2$ are further apart, we see that the Fourier coefficients are like the sum of the two base frequencies, but that other
@@ -430,9 +535,25 @@ end
 % Fourier series, due to the slow convergence of the Fourier series, just as for the square wave.
 % 
 % Let us plot the Fourier series with $N=7$ terms for $f$. 
-% These are shown in Figure 1.11. 
+% First we do this for the periodic extension of $f$. 
 % 
-% <<fourierseries/fig/trisym.png>>
+N = 7;
+T = 1/440;
+t = linspace(0, 4*T, 400);
+y=zeros(1,400);
+for n=1:7
+y = y - (2/(n*pi))*sin(2*pi*n*t/T);
+end
+figure()
+plot(t, y, 'k-')
+% Then we do this for the symmetric extension of $f$.
+% 
+figure()
+y=zeros(1,400);
+for n = 1:2:N
+y = y - 8*cos(2*pi*n*t/(2*T))/( n^2 * pi^2);
+end
+plot(t, y, 'k-')
 % 
 % It is clear from the plot that the Fourier series for $f$ itself is
 % not a very good approximation, while we cannot differentiate between the Fourier series and the function itself for the symmetric extension.
