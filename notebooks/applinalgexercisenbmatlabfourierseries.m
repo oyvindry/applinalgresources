@@ -36,6 +36,8 @@
 % 
 % % keywords = ipynb; m; fourierseries
 % 
+% 
+% 
 % Our audio sample file actually has two sound channels. 
 % In such cases |x| is actually a matrix with two columns, and each column represents a sound channel. 
 % To listen to each channel we can run the following code. 

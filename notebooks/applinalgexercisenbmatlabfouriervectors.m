@@ -239,37 +239,43 @@ legend('Interpolant from V_{M,T}', 'f')
 % % --- begin solution of exercise ---
 % *Solution.* The code can look as follows.
 % 
-[x0, fs] = audioread('sounds/castanets.wav');
-kvals = 3:15;
-slowtime=zeros(1,length(kvals));
-fasttime = slowtime; fastesttime = slowtime;
-N = 2.^kvals;
-for k = kvals
-x = x0(1:2^k,1);
-tic;
-y = DFTImpl(x);
-slowtime(k-2) = toc;
-tic;
-y = FFTImpl(x, @FFTKernelStandard);
-fasttime(k-2) = toc;
-tic;
-y = fft(x);
-fastesttime(k-2) = toc;
-end
-% a.
-plot(kvals, slowtime, 'r', ...
-kvals, fasttime, 'g', ...
-kvals, fastesttime, 'b')
-grid on
-title('time usage of the DFT methods')
-legend('DFT', 'Standard FFT', 'Built-in FFT')
-xlabel('log_2 N')
-ylabel('time used [s]')
-% b.
-figure(2)
-loglog(N, slowtime, 'r', N, fasttime, 'g', N, fastesttime, 'b')
-axis equal
-legend('DFT', 'Standard FFT', 'Built-in FFT')
+%  [x0, fs] = audioread('sounds/castanets.wav');
+%  
+%  kvals = 3:15;
+%  slowtime=zeros(1,length(kvals));
+%  fasttime = slowtime; fastesttime = slowtime;
+%  N = 2.^kvals;
+%  for k = kvals
+%      x = x0(1:2^k,1);
+%  
+%      tic;
+%      y = DFTImpl(x);
+%      slowtime(k-2) = toc;
+%  
+%      tic;
+%      y = FFTImpl(x, @FFTKernelStandard);
+%      fasttime(k-2) = toc;
+%  
+%      tic;
+%      y = fft(x);
+%      fastesttime(k-2) = toc;
+%  end
+%  
+%  % a.
+%  plot(kvals, slowtime, 'r', ...
+%       kvals, fasttime, 'g', ...
+%       kvals, fastesttime, 'b')
+%  grid on
+%  title('time usage of the DFT methods')
+%  legend('DFT', 'Standard FFT', 'Built-in FFT')
+%  xlabel('log_2 N')
+%  ylabel('time used [s]')
+%  
+%  % b.
+%  figure(2)
+%  loglog(N, slowtime, 'r', N, fasttime, 'g', N, fastesttime, 'b')
+%  axis equal
+%  legend('DFT', 'Standard FFT', 'Built-in FFT')
 % 
 % % --- end solution of exercise ---
 % 
