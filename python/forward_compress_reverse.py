@@ -37,7 +37,7 @@ def CreateExcerpt():
     return img[128:384,128:384,:]
     
 def forw_comp_rev_DFT2(f, invf, threshold):
-    TODO: f, invf
+    # TODO: f, invf
     X = CreateExcerpt()
     X = X.astype(complex)
     M, N = shape(X)[0:2]
