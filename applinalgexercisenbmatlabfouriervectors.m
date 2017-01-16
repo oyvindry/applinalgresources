@@ -1,13 +1,12 @@
-%% Exercises from Exercises from Linear algebra, signal processing, and wavelets. A unified approach.\\ Matlab version
+%% Exercises from Linear algebra, signal processing, and wavelets. A unified approach.\\ Matlab version
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 15, 2017
+% Date: Jan 16, 2017
 % 
+% % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'ex:compareextimes': '2.24', 'dftmainex3': '2.18', 'dftmainex2': '2.17', 'ex:interpolant': '2.21', 'dftmainex': '2.16', 'ex:nonrecursivealg': '2.28'}
 % 
-% 
-% % Externaldocuments: applinalg, applinalg
 % 
 % Table of contents:
 % 
@@ -30,7 +29,7 @@
 % 
 %% Example 2.16: Using the DFT to adjust frequencies in sound
 % 
-% % keywords = ipynb; m; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % Let us test the function |forw_comp_rev_DFT| to listen to the lower frequencies in the audio sample file.
 % We start with $L=13000$.
@@ -70,7 +69,7 @@ playblocking(playerobj);
 % 
 %% Example 2.17: Compression by zeroing out small DFT coefficients
 % 
-% % keywords = ipynb; m; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % We can achieve compression of a sound by setting small DFT coefficients which to zero. The idea is that frequencies with small values at the
 % corresponding frequency indices contribute little to our perception of the sound, so that they can be discarded. As a result we obtain a sound with less frequency
@@ -97,7 +96,7 @@ playblocking(playerobj);
 % 
 %% Example 2.18: Compression by quantizing DFT coefficients
 % 
-% % keywords = ipynb; m; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % The previous example is a rather simple procedure to obtain compression. The disadvantage is that it only affects frequencies with low contribution. 
 % A more neutral way to obtain compression is to let each DFT index occupy a certain number of bits. This is also called _quantization_, 
@@ -138,7 +137,7 @@ playblocking(playerobj);
 % 
 %% Exercise 2.21: Implement interpolant
 % 
-% % keywords = m; ipynb; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % Implement code where you do the following:
 % 
@@ -180,7 +179,7 @@ legend('Interpolant from V_{M,T}', 'f')
 % 
 %% Exercise 2.24: Compare execution time
 % 
-% % keywords = ipynb; m; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % In this exercise we will compare execution times for the different methods for computing the DFT. 
 % 
@@ -269,7 +268,7 @@ legend('Interpolant from V_{M,T}', 'f')
 % 
 %% Exercise 2.28: Non-recursive FFT algorithm
 % 
-% % keywords = ipynb; m; fouriervectors
+% % keywords = ipynbfouriervectors; mfouriervectors
 % 
 % Use the factorization in (2.18) to write a kernel function |FFTKernelNonrec| 
 % for a non-recursive FFT implementation.

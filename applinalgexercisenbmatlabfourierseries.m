@@ -1,13 +1,12 @@
-%% Exercises from Exercises from Linear algebra, signal processing, and wavelets. A unified approach.\\ Matlab version
+%% Exercises from Linear algebra, signal processing, and wavelets. A unified approach.\\ Matlab version
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 15, 2017
+% Date: Jan 16, 2017
 % 
+% % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'symfuncex': '1.35', 'ex:playwithdifferentfs': '1.9', 'exsq1': '1.12', 'triwavetrunk': '1.16', 'puresoundex': '1.3', 'ex:fourierseriespolynomials': '1.22', 'ex:playwithnoise': '1.10', 'ex:fourierpuretoneshortened': '1.24', 'example:listen_different_channels': '1.1', 'triangleexercise': '1.11', 'ex:fourierpuretone2stk': '1.25', 'squarewaveex': '1.4', 'soundbackwards': '1.2'}
 % 
-% 
-% % Externaldocuments: applinalg, applinalg
 % 
 % Table of contents:
 % 
@@ -36,7 +35,7 @@
 % 
 %% Example 1.1: Listen to different channels
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % 
 % 
@@ -66,7 +65,7 @@ playblocking(playerobj);
 % 
 %% Example 1.2: Playing the sound backwards
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % At times a popular game has been to play music backwards to try and find secret messages. 
 % In the old days of analog music on vinyl this was not so easy, but with digital sound it is quite simple; we just need to reverse the samples. 
@@ -92,7 +91,7 @@ playblocking(playerobj);
 % 
 %% Example 1.3: Playing pure tones.
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % To create the samples of a pure tone we can write
 % 
@@ -126,7 +125,7 @@ playblocking(playerobj);
 % 
 %% Example 1.4: The square wave
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % There are many other ways in which a function can oscillate regularly. 
 % The _square wave_ is one such, but we will see later that it can not be written as a simple, trigonometric function.
@@ -170,7 +169,7 @@ playblocking(playerobj);
 % 
 %% Exercise 1.9: Playing with different sample rates
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % If we provide another samples rate |fs| to the |play| functions, 
 % the sound card will assume a different time distance between neighboring samples. 
@@ -203,7 +202,7 @@ playblocking(playerobj);
 % 
 %% Exercise 1.10: Play sound with added noise
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % To remove noise from recorded sound can be very challenging, but adding noise is simple. 
 % There are many kinds of noise, but one kind is easily obtained by adding random numbers to the samples of a sound.
@@ -240,7 +239,7 @@ playblocking(playerobj);
 % 
 %% Exercise 1.11: Playing the triangle wave
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % Repeat what you did in Example 1.4, 
 % but now for the triangle wave of Example 1.5. 
@@ -277,7 +276,7 @@ playblocking(playerobj);
 % 
 %% Example 1.12: Fourier coefficients of the square wave
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % Let us compute the Fourier coefficients of the square wave, 
 % as defined by Equation (1.1) in Example 1.4. 
@@ -343,7 +342,7 @@ playblocking(playerobj);
 % 
 %% Exercise 1.16: Playing the Fourier series of the triangle wave
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % 
 % *a)* Plot the Fourier series of the triangle wave.
@@ -384,7 +383,7 @@ playblocking(playerobj);
 % 
 %% Exercise 1.22: Fourier series for polynomials
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % Write down difference equations for finding the Fourier coefficients of $f(t)=t^{k+1}$ from those of $f(t)=t^k$, and write a program which uses this recursion. 
 % Use the program to verify what you computed in Exercise 1.21.
@@ -416,7 +415,7 @@ end
 % 
 %% Example 1.24: Complex Fourier coefficients of a simple function
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % Let us consider the pure sound $f(t)=e^{2\pi it/T_2}$ with period $T_2$, but let us consider it only on the interval $[0,T]$ instead, where $T<T_2$. 
 % Note that this $f$ is not periodic, since we only consider the part $[0,T]$ of the period $[0,T_2]$. The Fourier coefficients are
@@ -453,7 +452,7 @@ plot( n, abs(( exp(2*pi*i*T/T2) - 1 )./(2*pi*i*(T/T2-n))) ,'k-')
 % 
 %% Example 1.25: Complex Fourier coefficients of composite function
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % What often is the case is that a sound changes in content over time. Assume that it is equal to a pure tone of frequency $n_1/T$ on $[0,T/2)$, and equal to a pure
 % tone of frequency $n_2/T$ on $[T/2,T)$, i.e.
@@ -513,7 +512,7 @@ plot(1:lt,yn,'k-')
 % 
 %% Example 1.35: Periodic extension
 % 
-% % keywords = ipynb; m; fourierseries
+% % keywords = ipynbfourierseries; mfourierseries
 % 
 % Let $f$ be the function with period $T$ defined by $f(t)=2t/T-1$ for $0\leq t<T$. 
 % In each period the function increases linearly from $-1$ to $1$. Because $f$ is discontinuous at the boundaries, we would expect the Fourier
