@@ -2,7 +2,7 @@
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 16, 2017
+% Date: Jan 17, 2017
 % 
 % % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'symfuncex': '1.35', 'ex:playwithdifferentfs': '1.9', 'exsq1': '1.12', 'triwavetrunk': '1.16', 'puresoundex': '1.3', 'ex:fourierseriespolynomials': '1.22', 'ex:playwithnoise': '1.10', 'ex:fourierpuretoneshortened': '1.24', 'example:listen_different_channels': '1.1', 'triangleexercise': '1.11', 'ex:fourierpuretone2stk': '1.25', 'squarewaveex': '1.4', 'soundbackwards': '1.2'}
@@ -296,20 +296,20 @@ playblocking(playerobj);
 % With $N=20$, there are $10$ trigonometric terms in this sum. 
 % The corresponding Fourier series can be plotted over one period with the following code.
 % 
-T=1/440;
-t=linspace(0,T,100);
-y=zeros(1,length(t));
+N = 20;
+T = 1/440;
+t = linspace(0, T, samplesperperiod);
+x = zeros(1,length(t));
 for k=1:2:19
-y = y + (4/(k*pi))*sin(2*pi*k*t/T);
+x = x + (4/(k*pi))*sin(2*pi*k*t/T);
 end
-plot(t,y)
+figure()
+plot(t, x, 'k-')
 % To see that the Fourier coefficients converge to 0, let us also plot the first $100$ values of $b_n$:
 % 
 k=1:2:101;
-plot(k,4./(k*pi),'kx')
-%  End fig:sq right
-% Begin fig:sq right decorate
-axis([0 101 0 1])
+figure()
+plot(k,4./(k*pi),'k-')
 % 
 % Even though $f$ oscillates regularly between $-1$ and $1$ with period $T$, 
 % the discontinuities mean that it is far from the simple $\sin(2\pi t/T)$ 
@@ -394,15 +394,7 @@ playblocking(playerobj);
 % 
 % $$\begin{align*} a_{n,k} &= \frac{2}{T} \int_0^T t^{k}\cos(2\pi nt/T)dt \\          &=\frac{2}{T}\left( \left[ \frac{T}{2\pi n} t^k\sin(2\pi nt/T) \right]_0^T - \frac{kT}{2\pi n}\int_0^T t^{k-1}\sin(2\pi nt/T)dt\right) \\          &=-\frac{kT}{2\pi n}b_{n,k-1} \\  b_{n,k} &= \frac{2}{T} \int_0^T t^{k}\sin(2\pi nt/T)dt \\          &=\frac{2}{T}\left( \left[ -\frac{T}{2\pi n} t^k\cos(2\pi nt/T) \right]_0^T + \frac{kT}{2\pi n}\int_0^T t^{k-1}\cos(2\pi nt/T)dt\right) \\          &= -\frac{T^k}{\pi n} +  \frac{kT}{2\pi n}a_{n,k-1}. \end{align*}$$
 % When $n>0$, these can be used to express $a_{n,k},b_{n,k}$ in terms of $a_{n,0},b_{n,0}$, for which we clearly have $a_{n,0}=b_{n,0}=0$. 
-% For $n=0$ we have that $a_{0,k}=\frac{T^k}{k+1}$ for all $k$. The following program computes $a_{n,k},b_{n,k}$ recursively when $n>0$. 
-% 
-function [ank,bnk] = findfouriercoeffs(n, k, T)
-ank=0; bnk=0;
-if k > 0
-[ankprev,bnkprev] = findfouriercoeffs(n, k-1, T)
-ank = -k*T*bnkprev/(2*pi*n);
-bnk = -T^k/(pi*n) + k*T*ankprev/(2*pi*n);
-end
+% For $n=0$ we have that $a_{0,k}=\frac{T^k}{k+1}$ for all $k$.
 % 
 % % --- end solution of exercise ---
 % 

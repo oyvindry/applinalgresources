@@ -2,7 +2,7 @@
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 16, 2017
+% Date: Jan 17, 2017
 % 
 % % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'ex:compareextimes': '2.24', 'dftmainex3': '2.18', 'dftmainex2': '2.17', 'ex:interpolant': '2.21', 'dftmainex': '2.16', 'ex:nonrecursivealg': '2.28'}
@@ -34,12 +34,12 @@
 % Let us test the function |forw_comp_rev_DFT| to listen to the lower frequencies in the audio sample file.
 % We start with $L=13000$.
 % 
-[x, fs] = forw_comp_rev_DFT(13000, 1);
+[x, fs] = forw_comp_rev_DFT('L', 13000, 'lower', 1);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % Then with $L=5000$.
 % 
-[x, fs] = forw_comp_rev_DFT(5000, 1);
+[x, fs] = forw_comp_rev_DFT('L', 5000, 'lower', 1);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % With $L=13000$ you can hear the disturbance in the sound, but we have not lost that much even if about 90\% of the DFT coefficients are dropped. 
@@ -49,12 +49,12 @@ playblocking(playerobj);
 % Let us then listen to higher frequencies instead. 
 % We start with $L=140000$.
 % 
-[x, fs] = forw_comp_rev_DFT(140000, 0);
+[x, fs] = forw_comp_rev_DFT('L', 140000, 'lower', 0);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % Then with $L=100000$. 
 % 
-[x, fs] = forw_comp_rev_DFT(100000, 0);
+[x, fs] = forw_comp_rev_DFT('L', 100000, 'lower', 0);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % 
@@ -78,12 +78,12 @@ playblocking(playerobj);
 % The function will now also write to the display the percentage of the DFT coefficients which were zeroed out.
 % Let us first listen to the result when |threshold=20|.
 % 
-[x, fs] = forw_comp_rev_DFT(threshold=20);
+[x, fs] = forw_comp_rev_DFT('threshold', 20);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % Then for |threshold=70|.
 % 
-[x, fs] = forw_comp_rev_DFT(threshold=70);
+[x, fs] = forw_comp_rev_DFT('threshold', 70);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % 
@@ -109,17 +109,17 @@ playblocking(playerobj);
 % In other words, high values of $n$ mean more rounding. 
 % Let us first listen to the result for |n=3|.
 % 
-[x, fs] = forw_comp_rev_DFT(n=3);
+[x, fs] = forw_comp_rev_DFT('n', 3);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % Then for |n=5|.
 % 
-[x, fs] = forw_comp_rev_DFT(n=5);
+[x, fs] = forw_comp_rev_DFT('n', 5);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % Then for |n=7|.
 % 
-[x, fs] = forw_comp_rev_DFT(n=7);
+[x, fs] = forw_comp_rev_DFT('n', 7);
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % You can hear that the sound degrades further when $n$ is increased.
@@ -181,9 +181,7 @@ legend('Interpolant from V_{M,T}', 'f')
 % 
 % % keywords = ipynbfouriervectors; mfouriervectors
 % 
-% In this exercise we will compare execution times for the different methods for computing the DFT. 
-% 
-% 
+% In this exercise we will compare execution times for the different methods for computing the DFT.
 % 
 % 
 % *a)* Write code which compares the execution times for an $N$-point DFT for the following three cases: Direct implementation of the DFT 
@@ -219,43 +217,37 @@ legend('Interpolant from V_{M,T}', 'f')
 % % --- begin solution of exercise ---
 % *Solution.* The code can look as follows.
 % 
-%  [x0, fs] = audioread('sounds/castanets.wav');
-%  
-%  kvals = 3:15;
-%  slowtime=zeros(1,length(kvals));
-%  fasttime = slowtime; fastesttime = slowtime;
-%  N = 2.^kvals;
-%  for k = kvals
-%      x = x0(1:2^k,1);
-%  
-%      tic;
-%      y = DFTImpl(x);
-%      slowtime(k-2) = toc;
-%  
-%      tic;
-%      y = FFTImpl(x, @FFTKernelStandard);
-%      fasttime(k-2) = toc;
-%  
-%      tic;
-%      y = fft(x);
-%      fastesttime(k-2) = toc;
-%  end
-%  
-%  % a.
-%  plot(kvals, slowtime, 'r', ...
-%       kvals, fasttime, 'g', ...
-%       kvals, fastesttime, 'b')
-%  grid on
-%  title('time usage of the DFT methods')
-%  legend('DFT', 'Standard FFT', 'Built-in FFT')
-%  xlabel('log_2 N')
-%  ylabel('time used [s]')
-%  
-%  % b.
-%  figure(2)
-%  loglog(N, slowtime, 'r', N, fasttime, 'g', N, fastesttime, 'b')
-%  axis equal
-%  legend('DFT', 'Standard FFT', 'Built-in FFT')
+[x0, fs] = audioread('sounds/castanets.wav');
+kvals = 3:15;
+slowtime=zeros(1,length(kvals));
+fasttime = slowtime; fastesttime = slowtime;
+N = 2.^kvals;
+for k = kvals
+x = x0(1:2^k,1);
+tic;
+y = DFTImpl(x);
+slowtime(k-2) = toc;
+tic;
+y = FFTImpl(x, @FFTKernelStandard);
+fasttime(k-2) = toc;
+tic;
+y = fft(x);
+fastesttime(k-2) = toc;
+end
+% a.
+plot(kvals, slowtime, 'r', ...
+kvals, fasttime, 'g', ...
+kvals, fastesttime, 'b')
+grid on
+title('time usage of the DFT methods')
+legend('DFT', 'Standard FFT', 'Built-in FFT')
+xlabel('log_2 N')
+ylabel('time used [s]')
+% b.
+figure(2)
+loglog(N, slowtime, 'r', N, fasttime, 'g', N, fastesttime, 'b')
+axis equal
+legend('DFT', 'Standard FFT', 'Built-in FFT')
 % 
 % % --- end solution of exercise ---
 % 
@@ -288,29 +280,7 @@ legend('Interpolant from V_{M,T}', 'f')
 % 
 % 
 % % --- begin solution of exercise ---
-% *Solution.* The algorithm for the non-recursive FFT can look as follows
-% 
-function y = FFTKernelNonrec(x, forward)
-N = size(x, 1);
-sign = -1;
-if ~forward
-sign = 1;
-end
-D = exp(sign*2*pi*1i*(0:(N/2 - 1))'/N);
-nextN = 1;
-while nextN < N
-k = 1;
-while k <= N
-xe = x(k:(k + nextN - 1));
-xo = x((k + nextN):(k + 2*nextN - 1)); 
-xo = xo.*D(1:(N/(2*nextN)):(N/2));
-x(k:(k + 2*nextN - 1)) = [xe + xo; xe - xo];
-k = k + 2*nextN;
-end
-nextN = nextN*2;
-end
-y = x;
-% If you add the non-recursive algorithm to the code from Exercise 2.24, you will see that the non-recursive algorithm performs much better. There may be several
+% *Solution.* If you add the non-recursive algorithm to the code from Exercise 2.24, you will see that the non-recursive algorithm performs much better. There may be several
 % reasons for this. First of all, there are no recursive function calls. Secondly, the values in the matrices $D_{N/2}$ are constructed once and for all with
 % the non-recursive algorithm. Code which compares execution times for the original FFT algorithm, our non-recursive implementation, and the split-radix algorithm of the next
 % exercise, can look as follows:
