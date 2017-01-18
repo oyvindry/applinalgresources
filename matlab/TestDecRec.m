@@ -1,6 +1,11 @@
 classdef TestDecRec < matlab.unittest.TestCase
     % TestDecRec test if a the DWT and IDWT function calles reveres each other
     % for all kernel functions. 
+    %
+    % USAGE:
+    % >> testCase = TestDecRec;
+    % >> res = run(testCase)
+    %
     properties
         x, N, eps, nres;
     end  
@@ -30,6 +35,8 @@ classdef TestDecRec < matlab.unittest.TestCase
         function testHaar(testCase)
             testWaveletDecRec(testCase, 'pwl2');
         end
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %                       Daubechies wavelets                            
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % This function fails
         %function testDB1(testCase)
@@ -77,6 +84,54 @@ classdef TestDecRec < matlab.unittest.TestCase
         end
         function testDB8bd(testCase)
             testWaveletDecRecBoundary(testCase, 'db8');
+        end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %                       Symlets wavelets                            
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        function testSYM2(testCase)
+            testWaveletDecRec(testCase, 'sym2');
+        end
+        function testSYM3(testCase)
+            testWaveletDecRec(testCase, 'sym3');
+        end
+        function testSYM4(testCase)
+            testWaveletDecRec(testCase, 'sym4');
+        end
+        function testSYM5(testCase)
+            testWaveletDecRec(testCase, 'sym5');
+        end
+        function testSYM6(testCase)
+            testWaveletDecRec(testCase, 'sym6');
+        end
+        function testSYM7(testCase)
+            testWaveletDecRec(testCase, 'sym7');
+        end
+        function testSYM8(testCase)
+            testWaveletDecRec(testCase, 'sym8');
+        end
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function testSYM2bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym2');
+        end
+        function testSYM3bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym3');
+        end
+        function testSYM4bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym4');
+        end
+        function testSYM5bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym5');
+        end
+        function testSYM6bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym6');
+        end
+        function testSYM7bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym7');
+        end
+        function testSYM8bd(testCase)
+            testWaveletDecRecBoundary(testCase, 'sym8');
         end
     end
     methods (Access=private)

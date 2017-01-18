@@ -1,5 +1,8 @@
 function x = DWTKernelOrtho(x, filters, mode, dual)
-%    global wavlib_lambdas wavlib_alpha wavlib_beta wavlib_AL wavlib_AR wavlib_A_L_pre wavlib_A_R_pre
+    % mode 2 boundary handling
+    % mode 3 preconditioning 
+    
+    
     N = size(x, 1);
   
     y1 = 0; y2 = 0;
