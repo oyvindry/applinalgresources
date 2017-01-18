@@ -1,8 +1,6 @@
-% In the next version this file should be deleted, and the function moved to a 
-% local function in the liftingfactortho.m file
-
 function [h0, h1, g0, g1]=h0h1computeortho(N)
-    
+    % Comptues the wavelet coefficients of the orthonormal Daubechies wavelet
+    % with minimum phase   
     vals=computeQN(N);
     rts=roots(vals)';
     rts1=rts(find(abs(rts)>1));

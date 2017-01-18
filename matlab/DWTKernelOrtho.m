@@ -1,8 +1,21 @@
 function x = DWTKernelOrtho(x, filters, mode, dual)
-    % mode 2 boundary handling
-    % mode 3 preconditioning 
-    
-    
+    % DWTKernelOrtho computes a one step orthonomal discrete wavelet transform
+    % with a given number of vanishing moments. The computed wavelet will depend
+    % on the values of the filters used. The `filters` argument should be the
+    % return value of `liftingfactortho()`. 
+    % 
+    % x:       Matrix whose DWT will be computed along the first dimension.
+    % filters: The filter coefficients for the othonormal wavelet, see
+    %          liftingfactortho()
+    % mode:    Boundary extension mode - the following modes are supported:     
+    %          0: Periodic extension
+    %          1: Symmetric extension
+    %          2: Orthonomal boundary wavelet extension
+    %          3: Orthonomal boundary wavelet extension, with preconditiong
+    % dual:    Use of dual wavelet
+    %          0: Use the ordinary wavelet
+    %          1: Use the dual wavelet
+    %
     N = size(x, 1);
   
     y1 = 0; y2 = 0;

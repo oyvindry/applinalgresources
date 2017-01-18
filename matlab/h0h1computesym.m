@@ -1,4 +1,10 @@
 function [h0, h1, g0, g1]=h0h1computesym(N)
+    % Comptues the wavelet coefficients of the orthonormal wavelet with N
+    % vanishing moments and close to linear phase. This makes the wavelet
+    % almost symmetric. These wavelets are called 'symlets'
+    %
+    % This function relies on matlabs wavelet coefficients. In the next version
+    % this will be changed 
     currDWTmode = dwtmode('status', 'nodisp');
     dwtmode('per','nodisp');
     nu = 7;
