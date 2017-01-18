@@ -77,8 +77,7 @@ playblocking(playerobj);
 % When we reverse the sound samples, we have to reverse the elements in both sound channels. 
 % For our audio sample file this can be performed as follows.
 % 
-N = size(x, 1);
-z = x(N:(-1):1, :);
+z = x(end:(-1):1, :);
 playerobj = audioplayer(z, fs);
 playblocking(playerobj);
 % 
@@ -147,7 +146,7 @@ oneperiod = [ones(1,round(samplesperperiod/2)) ...
 -ones(1,round(samplesperperiod/2))];
 % Then we repeat one period to obtain a sound with the desired length, and play it as follows. 
 % 
-x=repmat(oneperiod,1,antsec*f);
+x=repmat(oneperiod,1,antsec*f); % Repeat one period
 playerobj=audioplayer(x, fs);
 playblocking(playerobj);
 % We hear a sound which seems to have the same "base frequency" as $\sin(2\pi 440 t)$,
