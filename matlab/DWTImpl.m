@@ -1,3 +1,4 @@
+% This function desperately need some documentation
 function x = DWTIm(x, nres, wave_name, symmarg, dualarg)
     
     if (~exist('symmarg')) symmarg = 1; end

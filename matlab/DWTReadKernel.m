@@ -1,8 +1,12 @@
 function x = DWTReadKernel(x, nres, f, symmarg, dualarg)
-    % DWTReadKernel computes the DWT of the vector x for a given number of resolutions, using a given wavelet kernel. 
-    % The kernel is assumed to compute one level of the DWT, using the order dictated by in-place computation. DWTReadKernel is responsible for reorganizing the output so that the low resolution coefficients comes first, as required by the DWT. 
-    % The DWT is computed along the first dimension. 
-    % x may have a second dimension, as is the case for sound with more than one channel. The DWT is then applied to each channel.
+    % DWTReadKernel computes the DWT of the vector x for a given number of
+    % resolutions, using a given wavelet kernel. The kernel is assumed to
+    % compute one level of the DWT, using the order dictated by in-place
+    % computation. DWTReadKernel is responsible for reorganizing the output so
+    % that the low resolution coefficients comes first, as required by the DWT.
+    % The DWT is computed along the first dimension.  x may have a second
+    % dimension, as is the case for sound with more than one channel. The DWT is
+    % then applied to each channel.
     %   
     % x: The vector which we apply the DWT to.
     % nres: The number of stages
@@ -17,6 +21,6 @@ function x = DWTReadKernel(x, nres, f, symmarg, dualarg)
     
     N = size(x, 1);
     for res=0:(nres - 1)
-        x(1:2^res:N, :) = f(x(1:2^res:N, :), symmag, dualarg);
+        x(1:2^res:N, :) = f(x(1:2^res:N, :), symmarg, dualarg);
     end
     x = reorganize_coefficients(x, nres, 1);
