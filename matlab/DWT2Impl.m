@@ -1,8 +1,8 @@
-function X = DWT2Impl(X, nres, wave_name, symmarg, dualarg)
+function X = DWT2Impl(X, nres, wave_name, mode, dualarg)
     f = findDWTKernel(wave_name);
     symm = 1;
     if nargin >= 4
-        symm = symmarg;
+        symm = mode;
     end
     dual = 0;
     if nargin >= 5

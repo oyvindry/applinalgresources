@@ -1,4 +1,5 @@
-function f = findDWTKernel(wave_name)
+function f = findIDWTKernel(wave_name)
+    % Find the IDWTKernel corresponding to the given wavelet name 
     if strcmp(wave_name, 'cdf97')
         f = @(x, symm, dual) IDWTKernel97(x, symm, dual);
     elseif strcmp(wave_name, 'cdf53')
@@ -11,11 +12,19 @@ function f = findDWTKernel(wave_name)
         f = @(x, symm, dual) IDWTKernelHaar(x, symm, dual);
     elseif (strcmp(wave_name(1:2), 'db') && ~strcmp(wave_name(end), 'x'))
         vm = str2double(wave_name(3:end));
-        filters = liftingfactortho(vm, 0);
+        filters = liftingfactortho(vm, 0, 0);
         f = @(x, symm, dual) IDWTKernelOrtho(x, filters, symm, dual);
     elseif (strcmp(wave_name(1:2), 'db') && strcmp(wave_name(end), 'x'))
         vm = str2double(wave_name(3:end-1));
-        filters = liftingfactortho(vm, 1);
+        filters = liftingfactortho(vm, 0, 1);
+        f = @(x, symm, dual) IDWTKernelOrtho(x, filters, symm, dual);
+    elseif (strcmp(wave_name(1:3), 'sym') && ~strcmp(wave_name(end), 'x'))
+        vm = str2double(wave_name(4:end));
+        filters = liftingfactortho(vm, 1, 0);
+        f = @(x, symm, dual) IDWTKernelOrtho(x, filters, symm, dual);
+    elseif (strcmp(wave_name(1:3), 'sym') && strcmp(wave_name(end), 'x'))
+        vm = str2double(wave_name(4:end-1));
+        filters = liftingfactortho(vm, 1, 1);
         f = @(x, symm, dual) IDWTKernelOrtho(x, filters, symm, dual);
     end
 end

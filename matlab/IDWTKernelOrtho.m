@@ -1,5 +1,6 @@
 function x = IDWTKernelOrtho(x, filters, mode, dual)
-%    global filters.lambdas wavlib_alpha wavlib_beta wavlib_AL filters.AR wavlib_A_L_pre_inv wavlib_A_R_pre_inv
+    % For usage see - DWTKernelOrtho
+    
     N = size(x, 1);
     y1 = 0; y2 = 0;
     
