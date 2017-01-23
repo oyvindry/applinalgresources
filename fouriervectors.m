@@ -2,7 +2,7 @@
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 17, 2017
+% Date: Jan 20, 2017
 % 
 % % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'ex:compareextimes': '2.24', 'dftmainex3': '2.18', 'dftmainex2': '2.17', 'ex:interpolant': '2.21', 'dftmainex': '2.16', 'ex:nonrecursivealg': '2.28'}
@@ -18,6 +18,8 @@
 %      Exercise 2.21: Implement interpolant 
 %      Exercise 2.24: Compare execution time 
 %      Exercise 2.28: Non-recursive FFT algorithm 
+%  Operations on digital sound: digital filters 
+%  Symmetric filters and the DCT 
 % 
 % 
 % 
@@ -318,4 +320,7 @@ ylabel('time used [s]')
 % 
 % % --- end exercise ---
 % 
+% 
+%% Operations on digital sound: digital filters
+%% Symmetric filters and the DCT
 

@@ -2,7 +2,7 @@
 % 
 % Author: \O yvind Ryan
 % 
-% Date: Jan 17, 2017
+% Date: Jan 20, 2017
 % 
 % % Externaldocuments: applinalg
 % % Mapping from exercise labels to numbers: label2numbers = {'symfuncex': '1.35', 'ex:playwithdifferentfs': '1.9', 'exsq1': '1.12', 'triwavetrunk': '1.16', 'puresoundex': '1.3', 'ex:fourierseriespolynomials': '1.22', 'ex:playwithnoise': '1.10', 'ex:fourierpuretoneshortened': '1.24', 'example:listen_different_channels': '1.1', 'triangleexercise': '1.11', 'ex:fourierpuretone2stk': '1.25', 'squarewaveex': '1.4', 'soundbackwards': '1.2'}
@@ -25,6 +25,8 @@
 %      Example 1.25: Complex Fourier coefficients of composite function 
 %      Example 1.35: Periodic extension 
 %  Digital sound and Discrete Fourier analysis 
+%  Operations on digital sound: digital filters 
+%  Symmetric filters and the DCT 
 % 
 % 
 % 
@@ -552,4 +554,6 @@ plot(t, y, 'k-')
 % 
 % 
 %% Digital sound and Discrete Fourier analysis
+%% Operations on digital sound: digital filters
+%% Symmetric filters and the DCT
 
