@@ -55,3 +55,4 @@ function x = DWTKernelOrtho(x, filters, mode, dual)
         x(1:size(filters.AL,2)) = x(1:size(filters.AL,2)) + y1;
         x((N-size(filters.AR,2)+1):N) = x((N-size(filters.AR,2)+1):N) + y2;
     end
+end

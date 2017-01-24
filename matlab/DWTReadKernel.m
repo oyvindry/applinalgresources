@@ -28,3 +28,4 @@ function x = DWTReadKernel(x, nres, f, mode, dualarg)
         x(1:2^res:N, :) = f(x(1:2^res:N, :), mode, dualarg);
     end
     x = reorganize_coefficients(x, nres, 1);
+end
